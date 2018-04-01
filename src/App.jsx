@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Button, Statistic} from 'semantic-ui-react';
 
 function Square(props) {
   return (
@@ -61,12 +62,11 @@ class Board extends Component {
   }
 }
 
-
 class Game extends Component {
 
   constructor(props) {
     super(props);
-    
+
     //create initial random 2D array
     const squares_init = new Array(5);
     for (var i = 0; i < squares_init.length; i++) {
@@ -79,17 +79,20 @@ class Game extends Component {
     //start with 0 moves
     const moves_init = 0;
 
+    const gameOver_init = false;
+
     //manage state
     this.state = {
       squares: squares_init,
-      moves: moves_init
+      moves: moves_init,
+      gameOver: gameOver_init
     }
   } 
 
-  handleClick(i, j) {
-  
+  handleSquareClick(i, j) {
     var squares_new =  this.state.squares
     //left
+    squares_new[i][j] = !squares_new[i][j]
     if (j != 0) {
       squares_new[i][j-1] = !squares_new[i][j-1];
     }
@@ -105,10 +108,45 @@ class Game extends Component {
     if (i != squares_new.length-1) {
       squares_new[i+1][j] = !squares_new[i+1][j]; 
     }
+
+    function checkIfFalse(rows) {
+      
+      for(var i = 0; i < squares_new.length; i++) {
+        for(var j = 0; j < squares_new.length; j++) {
+          if (squares_new[i][j] == true) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+    
     
     this.setState({
       squares: squares_new,
-      moves: this.state.moves + 1
+      moves: this.state.moves + 1,
+      gameOver: checkIfFalse(squares_new)
+    });
+  }
+
+  handleRestart() {
+
+    //create initial random 2D array
+    const squares_init = new Array(5);
+    for (var i = 0; i < squares_init.length; i++) {
+      squares_init[i] = new Array(5);
+      for (var j = 0; j < squares_init[i].length; j++) {
+        squares_init[i][j] = Math.random() >= 0.5;
+      }
+    }
+
+    //start with 0 moves
+    const moves_init = 0;
+
+    this.setState({
+      squares: squares_init,
+      moves: moves_init
     });
   }
 
@@ -118,12 +156,21 @@ class Game extends Component {
         <div className="game-board">
           <Board
             squares={this.state.squares}
-            onClick={(i, j) => this.handleClick(i, j)}
+            onClick={(i, j) => this.handleSquareClick(i, j)}
           />
         </div>
         <div className="game-info">
-          <h4>Number of Moves: {this.state.moves}</h4>
+          <Statistic inverted color='teal'>
+            <Statistic.Value>{this.state.moves}</Statistic.Value>
+            <Statistic.Label>Total Moves</Statistic.Label>
+          </Statistic>
+          <Button inverted color='teal'
+            onClick={(e) => this.handleRestart(e)}>
+            Restart
+          </Button>
+          <h4>{this.state.gameOver ? "Game Over" : ""}</h4>
         </div>
+        
       </div>
     );
   }
