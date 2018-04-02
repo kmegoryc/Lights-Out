@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { Button, Statistic, Modal} from 'semantic-ui-react';
+import { Button, Statistic, Modal, Header, Icon} from 'semantic-ui-react';
 
 function Square(props) {
   return (
-    <button className={props.value ? "on square" : "off square"} onClick={props.onClick}>
+    <button className={props.value ? "square on" : "square off"} onClick={props.onClick}>
       {props.value}
     </button>
   )
@@ -62,55 +62,59 @@ class Board extends Component {
   }
 }
 
+class RestartModal extends Component {
+
+  render() {
+    return (
+      <Modal basic open size='small'
+        header = "Congratulations!"
+        content = "You solved Lights Out! Would you like to play again?"
+        actions = {[{key: 'yes', content: "Yes", color: "green", inverted: true, icon: 'checkmark'}]}
+        onClick = {this.props.onClick}
+      />
+    );
+  }
+}
+
 class Game extends Component {
 
   constructor(props) {
-    super(props);
+    super();
 
-    //create initial random 2D array
-    const squares_init = new Array(5);
-    for (var i = 0; i < squares_init.length; i++) {
-      squares_init[i] = new Array(5);
-      for (var j = 0; j < squares_init[i].length; j++) {
-        squares_init[i][j] = Math.random() >= 0.5;
-      }
-    }
-
-    //start with 0 moves
-    const moves_init = 0;
-
-    const gameOver_init = false;
-
-    //manage state
+    //manage state with initial values
     this.state = {
-      squares: squares_init,
-      moves: moves_init,
-      gameOver: gameOver_init
+      squares: props.squares_init,
+      moves: props.moves_init,
+      gameIsOver: props.gameIsOver_init
     }
   } 
 
   handleSquareClick(i, j) {
-    var squares_new =  this.state.squares
-    //left
-    squares_new[i][j] = !squares_new[i][j]
+
+    var squares_new = this.state.squares;
+
+    //toggle current
+    squares_new[i][j] = !squares_new[i][j];
+    //toggle left
     if (j != 0) {
       squares_new[i][j-1] = !squares_new[i][j-1];
     }
-    //right
+    //toggle right
     if (j != squares_new.length-1) {
       squares_new[i][j+1] = !squares_new[i][j+1];
     }
-    //top
+    //toggle top
     if (i != 0) {
       squares_new[i-1][j] = !squares_new[i-1][j];
     }
-    //bottom
+    //toggle bottom
     if (i != squares_new.length-1) {
       squares_new[i+1][j] = !squares_new[i+1][j]; 
     }
 
+    //check if all the squares are off/if the game is over
     function isGameOver(rows) {
-      
+
       for(var i = 0; i < squares_new.length; i++) {
         for(var j = 0; j < squares_new.length; j++) {
           if (squares_new[i][j] == true) {
@@ -122,16 +126,29 @@ class Game extends Component {
       return true;
     }
     
+    //update squares, add to move count, and check if game is over
     this.setState({
       squares: squares_new,
       moves: this.state.moves + 1,
-      gameOver: isGameOver(squares_new)
+      gameIsOver: isGameOver(squares_new)
     });
+
+  }
+
+  handleGameOverRestart() {
+
+    //new game - game status is now true
+    this.setState({
+      gameIsOver: this.props.gameIsOver_init
+    });
+
+    //reset game squares and move count
+    this.handleRestart();
   }
 
   handleRestart() {
 
-    //create initial random 2D array
+    //create NEW random 2D array
     const squares_init = new Array(5);
     for (var i = 0; i < squares_init.length; i++) {
       squares_init[i] = new Array(5);
@@ -140,20 +157,18 @@ class Game extends Component {
       }
     }
 
-    //start with 0 moves
-    const moves_init = 0;
-
+    //reset game squares and move count in state
     this.setState({
       squares: squares_init,
-      moves: moves_init
+      moves: this.props.moves_init
     });
   }
 
   render() {
     return (
       <div className="game">
-      <h1> !LIGHTS </h1> 
-      <h1 className='bold'> OUT </h1>
+        <h1> !LIGHTS </h1>
+        <h1 className='bold'> OUT </h1>
         <div className="game-board">
           <Board
             squares={this.state.squares}
@@ -169,6 +184,9 @@ class Game extends Component {
             onClick={(e) => this.handleRestart(e)}>
             RESTART
           </Button>
+          {this.state.gameIsOver == true &&
+            <RestartModal onClick={() => this.handleGameOverRestart()}/>
+          }
         </div>
         
       </div>
@@ -178,8 +196,28 @@ class Game extends Component {
 
 class App extends Component {
   render() {
+
+    //create initial random 2D array
+    const squares_init = new Array(5);
+    for (var i = 0; i < squares_init.length; i++) {
+      squares_init[i] = new Array(5);
+      for (var j = 0; j < squares_init[i].length; j++) {
+        squares_init[i][j] = Math.random() >= 0.5;
+      }
+    }
+
+    //start with 0 moves
+    const moves_init = 0;
+
+    //game is not over
+    const gameIsOver_init = false;
+
     return (
-      <Game/>
+      <div className="app">
+        <Game squares_init={squares_init} 
+              moves_init={moves_init} 
+              gameIsOver_init={gameIsOver_init}/>
+      </div>
     );
   }
 }

@@ -22,11 +22,35 @@ h1 {
 
 .game {
   position: relative;
-  margin: 100px;
+  margin: 80px;
 
   .game-board {
     margin: 50px auto;
     display: table;
+    min-width: 400px;
+
+    .square {
+      float: left;
+      border: 3px solid #171717;
+      height: 80px;
+      margin-right: -1px;
+      margin-top: -1px;
+      padding: 0;
+      text-align: center;
+      width: 80px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  
+    .off {
+      background: teal;
+    }
+    
+    .on {
+      background: white;
+    }
   }
 
   .game-info {
@@ -35,34 +59,9 @@ h1 {
       display: block;
       margin: 20px 0;
     }
+    .button {
+      margin: 0;
+    }
   }
-
-  .off {
-    background: teal;
-  }
-  
-  .on {
-    background: white;
-  }
-  
-  .square {
-    float: left;
-    border: 3px solid #171717;
-    height: 80px;
-    margin-right: -1px;
-    margin-top: -1px;
-    padding: 0;
-    text-align: center;
-    width: 80px;
-  }
-
-  .square:focus {
-    outline: none;
-  }
-  
-  .kbd-navigation .square:focus {
-    background: #ddd;
-  }
-
 }
 
