@@ -1,5 +1,17 @@
 body {
-  background: black !important;
+  background: #171717 !important;
+}
+
+h1 {
+  display: inline;
+  color: teal;
+  letter-spacing: 5px;
+  position: absolute;
+  font-family: 'Courier New', Courier, monospace !important;
+}
+
+.bold {
+  font-size: 80px !important;
 }
 
 .board-row:after {
@@ -21,6 +33,7 @@ body {
     text-align: center;
     .statistic {
       display: block;
+      margin: 20px 0;
     }
   }
 
@@ -34,17 +47,13 @@ body {
   
   .square {
     float: left;
-    border: 3px solid black;
+    border: 3px solid #171717;
     height: 80px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
     width: 80px;
-
-    &:hover {
-      border: 5px solid inset black;
-    }
   }
 
   .square:focus {

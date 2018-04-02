@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Statistic} from 'semantic-ui-react';
+import { Button, Statistic, Modal} from 'semantic-ui-react';
 
 function Square(props) {
   return (
@@ -109,7 +109,7 @@ class Game extends Component {
       squares_new[i+1][j] = !squares_new[i+1][j]; 
     }
 
-    function checkIfFalse(rows) {
+    function isGameOver(rows) {
       
       for(var i = 0; i < squares_new.length; i++) {
         for(var j = 0; j < squares_new.length; j++) {
@@ -122,11 +122,10 @@ class Game extends Component {
       return true;
     }
     
-    
     this.setState({
       squares: squares_new,
       moves: this.state.moves + 1,
-      gameOver: checkIfFalse(squares_new)
+      gameOver: isGameOver(squares_new)
     });
   }
 
@@ -153,6 +152,8 @@ class Game extends Component {
   render() {
     return (
       <div className="game">
+      <h1> !LIGHTS </h1> 
+      <h1 className='bold'> OUT </h1>
         <div className="game-board">
           <Board
             squares={this.state.squares}
@@ -160,15 +161,14 @@ class Game extends Component {
           />
         </div>
         <div className="game-info">
-          <Statistic inverted color='teal'>
+          <Statistic inverted>
             <Statistic.Value>{this.state.moves}</Statistic.Value>
             <Statistic.Label>Total Moves</Statistic.Label>
           </Statistic>
-          <Button inverted color='teal'
+          <Button inverted
             onClick={(e) => this.handleRestart(e)}>
-            Restart
+            RESTART
           </Button>
-          <h4>{this.state.gameOver ? "Game Over" : ""}</h4>
         </div>
         
       </div>
