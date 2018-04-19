@@ -1,25 +1,3 @@
-body {
-  background: #171717 !important;
-}
-
-h1 {
-  display: inline;
-  color: teal;
-  letter-spacing: 5px;
-  position: absolute;
-  font-family: 'Courier New', Courier, monospace !important;
-}
-
-.bold {
-  font-size: 80px !important;
-}
-
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
-}
-
 .game {
   position: relative;
   margin: 80px;
@@ -28,6 +6,12 @@ h1 {
     margin: 50px auto;
     display: table;
     min-width: 400px;
+
+    .board-row:after {
+      clear: both;
+      content: "";
+      display: table;
+    }
 
     .square {
       float: left;
@@ -38,16 +22,15 @@ h1 {
       padding: 0;
       text-align: center;
       width: 80px;
-
       &:focus {
         outline: none;
       }
     }
-  
+
     .off {
       background: teal;
     }
-    
+
     .on {
       background: white;
     }

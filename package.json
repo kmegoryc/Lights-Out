@@ -23,6 +23,8 @@
   "dependencies": {
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
     "semantic-ui-react": "^0.79.0"
   },
   "devDependencies": {
