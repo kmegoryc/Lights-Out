@@ -1,7 +1,7 @@
 export function squareClicked(i, j) {
     return {
-        type: "CLICKED", 
-        row: i, 
+        type: "CLICKED",
+        row: i,
         column: j
     };
 }

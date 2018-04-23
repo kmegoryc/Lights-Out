@@ -9,28 +9,23 @@ const gameReducer = (state = {
 }, action) => {
     switch (action.type) {
         case "CLICKED":
-            state = {
-                ...state,
+            return {
                 lights: updateArrayOnClick(state.lights, action.row, action.column),
                 moves: state.moves + 1,
                 gameCompleted: isGameCompleted(state.lights)
             };
-            break;
         case "RESTART":
-            state = {
-                ...state,
-                lights: generateRandomArray(),
-                moves: 0
-            };
-            break;
-        case "GAMEOVER":
-            state = {
-                ...state,
+            return {
                 lights: generateRandomArray(),
                 moves: 0,
                 gameCompleted: false
             };
-            break;
+        case "GAMEOVER":
+            return {
+                lights: generateRandomArray(),
+                moves: 0,
+                gameCompleted: false
+            };
     }
     return state;
 };

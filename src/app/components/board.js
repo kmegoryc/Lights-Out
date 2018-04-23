@@ -11,8 +11,10 @@ export default class Board extends Component {
 
   render() {
     const Grid = this.props.squares
-      .map((row, i) => <div className="board-row" key={i}>
-        {row.map((column, j) => <div key={j}>
+      .map((row, i) =>
+      <div className="board-row" key={i}>
+        {row.map((column, j) =>
+        <div key={j}>
           {this.renderSquare(i, j)}
         </div>)}
       </div>);

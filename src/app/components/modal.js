@@ -3,9 +3,7 @@ import {Modal} from 'semantic-ui-react';
 
 export default class gameOverModal extends Component {
   render() {
-    return (<Modal
-      basic
-      defaultOpen
+    return (<Modal basic defaultOpen
       size='small'
       onClick={this.props.onClick}
       header="Congratulations!"

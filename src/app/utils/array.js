@@ -1,38 +1,41 @@
 import React, {Component} from 'react';
 
 export const generateRandomArray = () => {
-    const lights = new Array(5);
-    for (var i = 0; i < lights.length; i++) {
-        lights[i] = new Array(5);
-        for (var j = 0; j < lights[i].length; j++) {
-            lights[i][j] = Math.random() >= 0.5;
-        }
-    }
-    return lights;
+    //generates a 2D array of random boolean values
+    //only called on game restart or gameover
+
+    let squares = new Array(5).fill(null).map((row) => {
+        let random = new Array(5).fill(null).map((column) => {
+            return Math.random() >= 0.5;
+        });
+        return random;
+    });
+    return squares;
 }
 
-export const updateArrayOnClick = (lights, i, j) => {
-    let lights_len = lights.length;
+export const updateArrayOnClick = (squares, i, j) => {
+    //toggles appropriate squares on the grid board based on the selected square
+    //called each time a square is clicked
 
     //toggle current
-    lights[i][j] = !lights[i][j];
+    squares[i][j] = !squares[i][j];
 
     //toggle left
     if (j != 0) {
-        lights[i][j - 1] = !lights[i][j - 1];
+        squares[i][j - 1] = !squares[i][j - 1];
     }
     //toggle right
-    if (j != lights_len - 1) {
-        lights[i][j + 1] = !lights[i][j + 1];
+    if (j != squares.length - 1) {
+        squares[i][j + 1] = !squares[i][j + 1];
     }
     //toggle top
     if (i != 0) {
-        lights[i - 1][j] = !lights[i - 1][j];
+        squares[i - 1][j] = !squares[i - 1][j];
     }
     //toggle bottom
-    if (i != lights_len - 1) {
-        lights[i + 1][j] = !lights[i + 1][j];
+    if (i != squares.length - 1) {
+        squares[i + 1][j] = !squares[i + 1][j];
     }
 
-    return lights;
+    return squares;
 }
